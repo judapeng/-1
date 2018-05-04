@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <style>
+        .large{
+            width: 501px;
+            height: 70px;
+            border: 1px solid #999;
+            font-size: 20px;
+            color: #dcdcdc;
+            line-height: 68px;
+            padding: 0 0 0 18px;
+            margin-bottom: 40px;
+            
+        }
+        .winput{
+            width: 366px;
+            height: 68px;
+            padding: 0;
+            border: none;
+            outline: none;
+
+
+        }
+        .interwal{
+            letter-spacing: 18px;
+            color: #8c8c8c;
+        }
+        .interwal2{
+            letter-spacing: 6px;
+            color: #8c8c8c;
+            margin-right: 10px;
+        }
+        .interwal3{
+            letter-spacing: 1px;
+            color: #8c8c8c;
+            margin-right: 10px;
+        }
+        .bt1{
+            width: 501px;
+            height: 70px;
+            border: 1px solid #999;
+            background: #e22319;
+            color: #ffd1bc;
+        }
+        input::-webkit-input-placeholder{
+            color:#dcdcdc;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#dcdcdc;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#dcdcdc;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#dcdcdc;
+        }
+        .smword{
+            font-size: 6px;
+            position: relative;
+            top: -20px;
+            
+        }
+        
+        
+    
+    </style>
+</head>
+<body>
+    <div class="col-md-6 col-md-offset-4 col-sm-10 large">
+        <span for="userID" class="interwal">用户名</span><input type="text" class="winput" placeholder ="您的账户名和登录名" id="userID" >
+        <span class="smword"></span>
+    </div>
+    <div class="col-md-6 col-md-offset-4 col-sm-10 large">
+            <span for="pw" class="interwal2">设置密码</span><input id="pw" type="text" class="winput"  placeholder ="建议使用两种或两种以上字符组合">
+            <span class="smword"></span>
+    </div>
+    <div class="col-md-6 col-md-offset-4 col-sm-10 large">
+            <span class="interwal2">确认密码</span><input type="text" class="winput" placeholder ="请再次输入密码" id="pw2">
+            <span class="smword"></span>
+    </div>
+    <div class="col-md-6 col-md-offset-4 col-sm-10 large">
+            <span for="email" class="interwal2">邮箱验证</span><input type="text" class="winput" placeholder ="请输入邮箱" id="email">
+            <span class="smword"></span>
+    </div>
+    <div class="col-md-6 col-md-offset-4 col-sm-10 large">
+            <span class="interwal3">邮箱验证码</span><input type="text" class="winput" placeholder ="请输入邮箱验证码" >
+    </div>
+    <div>
+        <button class="col-md-6 col-md-offset-4 col-sm-10 bt1">立即注册</button>
+    </div>
+    <script src="comment.js"></script>
+
+    <script>
+        //支持中文、英文、数字，“-”，“_”的组合，4-20字符
+        //建议使用字母、数字和符号两种及其以上的字符组合
+        var  verification = {
+            userId:{
+                el:$("userID"),
+                reg:/^[\u4e00-\u9fa5\-\w]{4,20}$/i,
+                hasVaild:false
+            },
+            password:{
+                el:$("pw"),
+                reg:/^[a-z0-9\u0021-\u002f]{6,20}$ /i,
+                hasVaild:false
+            },
+            // password2:{
+            //     el:$("pw2"),
+            //     reg:/^[a-z0-9\u0021-\u002f]{6,20}$ /i,
+            //     hasVaild:false
+            // },
+            email:{
+                el:$("email"),
+                reg:/\w{6,20}@[a-z0-9]{2,6}\.[a-z]{2,6}/,
+                hasVaild:false
+            }
+        }
+        //console.log(String.fromCharCode())
+
+        var userEle = verification.userId.el;
+        var userReg = verification.userId.reg;
+        userEle.onfocus = function(){
+            this.nextElementSibling.innerHTML = "支持中文、英文、数字，“-”，“_”的组合，4-20字符";
+            this.nextElementSibling.style.color = ""
+        }
+        userEle.onblur = function(){
+           
+            var string = this.value;
+            //console.log(string)
+            addState(this,userReg.test(string))
+
+        }
+        var pwEle = verification.password.el;
+        var pwReg = verification.password.reg;
+        pwEle.onfocus = function(){
+            this.nextElementSibling.innerHTML = "建议使用字母、数字和符号两种及其以上的字符组合";
+            this.nextElementSibling.style.color = ""
+        }
+        pwEle.onblur = function(){
+            var string = this.value;
+            addState(this,userReg.test(string))
+        }
+
+        //  var pwEle2 = verification.password2.el;
+        //  var pwReg2 = verification.password2.reg; 
+        //  pwEle2.onblur = function(){
+        //     var string = this.value;
+        //     addState(this,userReg.test(string))
+        // }
+    
+        // 我这么写为什么不行啊。pw；
+            var password2 = $("pw2")
+            password2.onfocus = function(){
+                this.nextElementSibling.innerHTML = "请重新输入密码";
+                this.nextElementSibling.style.color = ""
+            }
+            password2.onblur = function(){
+                var pwEle2 = this.value;
+                var string = pwEle.value;
+                //console.log(pwEle2)
+                //console.log(string)
+                if(pwEle2 != string){
+                    this.nextElementSibling.innerHTML = "请输入正确的密码"
+                    this.nextElementSibling.style.color = "orange"
+                }else{
+                    this.nextElementSibling.innerHTML = "";
+                    this.nextElementSibling.style.color = ""
+                }
+            }
+            var emailEle = verification.email.el;
+            var emailReg = verification.email.reg;
+            emailEle.onfocus = function(){
+            this.nextElementSibling.innerHTML = "请输入已经建立的邮箱";
+            this.nextElementSibling.style.color = ""
+        }
+            emailEle.onblur = function(){
+            var string = this.value;
+            addState(this,userReg.test(string))
+        }
+    
+    
+    
+    </script>
+
+
+
+
+
+
+    
+</body>
+</html>
